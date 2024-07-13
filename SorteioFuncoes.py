@@ -2,9 +2,8 @@ import random as rd
 import os
 import datetime
 
-
+# Try to assing a person to to_clean place
 def get_place(to_clean):
-	#print(f"get_place => {len(people_aux)} people")
 	for i in range(len(people_aux)):
 		#print(f"{i}")
 		num = rd.randrange(0,len(people_aux))
@@ -15,15 +14,6 @@ def get_place(to_clean):
 			people_aux.remove(person)
 			return person
 	return "Error"
-
-#def ResetControl():
-	# for person in people:
-	# 	f.write(f"{person}")
-	# 	for place in places:
-	# 		f.write(f", {place}")
-	# 	f.write("\n") 
-
-	# f.close()
 
 people = ["Cabeca", "Cafe", "Bordel", "Xupeta", "Moises", "Tesouro", "Desisto", "Tampinha", "P4", "Castro"]
 places = ["Sala + Corredor Frente", "Lavabo + Corredor Quartos", "Banheiro Meio", "Banheiro Suite", "Fundo", "Garagem + Frente", "Garagem + Frente", "Salol + Sala Antiga", "Lavanderia + Banheiro Fundo + Cozinha", "Lavanderia + Banheiro Fundo + Cozinha"]
@@ -41,18 +31,6 @@ history = open(f"Tasks/Tasks Limpeza Pulero {today.strftime('%d-%m')}.txt", "w")
 
 for week in range(0, size_mandala):
 	dicio_remove = {}
-	#reset = 0
-
-	# f = open("PeopleAndPlaces.txt", "r")
-	# #Populate dicio with left places to person do
-	# for person in people:
-	# 	temp = line.strip().split(", ")
-	# 	size = len(temp)
-	# 	dicio[temp[0]] = []
-	# 	for i in range(1,size):
-	# 		dicio[temp[0]].append(temp[i])
-
-	# f.close()
 
 	# Try to assign places multiple times, until it works
 	while True:
@@ -93,18 +71,9 @@ for week in range(0, size_mandala):
 
 	today = today + datetime.timedelta(days=7)
 
-	# Update dicio removing current done chore
+	# Update dicio removing current done chores
 	for person in dicio_remove:
 		# print(f"{person} - {dicio_remove[person]}")
 		dicio[person].remove(dicio_remove[person])
-
-	# Update PeopleAndPlaces
-	# f = open("PeopleAndPlaces.txt", "w")
-	# for person in dicio:
-	# 	f.write(person)
-	# 	for place in dicio[person]:
-	# 		f.write(f", {place}")
-	# 	f.write("\n")
-	# f.close()
 
 history.close()
