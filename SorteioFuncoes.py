@@ -3,10 +3,12 @@ import os
 import datetime
 
 
-def get_place(places_aux, people_aux, to_clean, dicio):
-	for item in people_aux:
-		num = rd.randint(0,len(people_aux))
-		person = people_aux[num-1]
+def get_place(to_clean):
+	#print(f"get_place => {len(people_aux)} people")
+	for i in range(len(people_aux)):
+		#print(f"{i}")
+		num = rd.randrange(0,len(people_aux))
+		person = people_aux[num]
 		if to_clean in dicio[person]:
 			dicio_remove[person] = to_clean
 			places_aux.remove(to_clean)
@@ -14,73 +16,70 @@ def get_place(places_aux, people_aux, to_clean, dicio):
 			return person
 	return "Error"
 
+#def ResetControl():
+	# for person in people:
+	# 	f.write(f"{person}")
+	# 	for place in places:
+	# 		f.write(f", {place}")
+	# 	f.write("\n") 
+
+	# f.close()
+
+people = ["Cabeca", "Cafe", "Bordel", "Xupeta", "Moises", "Tesouro", "Desisto", "Tampinha", "P4", "Castro"]
+places = ["Sala + Corredor Frente", "Lavabo + Corredor Quartos", "Banheiro Meio", "Banheiro Suite", "Fundo", "Garagem + Frente", "Garagem + Frente", "Salol + Sala Antiga", "Lavanderia + Banheiro Fundo + Cozinha", "Lavanderia + Banheiro Fundo + Cozinha"]
+size_mandala = len(people)
+dicio = {}
+
+for person in people:
+	dicio[person] = places.copy()
+
+if len(places) != size_mandala:
+	print("\nCorrige as listas hardcodadas corno\n")
+
 today = datetime.datetime.today()
 history = open(f"Tasks/Tasks Limpeza Pulero {today.strftime('%d-%m')}.txt", "w")
-filename = "ResetPeopleAndPlaces.py"
-with open(filename, "rb") as source_file:
-    code = compile(source_file.read(), filename, "exec")
-exec(code)
 
-for week in range(0,14):
-
-	people = ["Cabeca", "Cafe", "Bordel", "Filhinho", "Jucelio", "Marcola", "Tietz", "Moises", "Penado", "Tesouro", "Desisto", "P2", "P1", "Teresa"]
-	places = ["Sala + Corredor Frente", "Sala Antiga + Lavabo + Corredor Quartos", "Sala Antiga + Lavabo + Corredor Quartos", "Banheiro Meio", "Banheiro Suite", "Fundo", "Fundo", "Fundo", "Garagem + Frente", "Garagem + Frente", "Salol + Cozinha", "Salol + Cozinha", "Lavanderia + Banheiro Fundo", "Lavanderia + Banheiro Fundo"]
-
-	dicio = {}
+for week in range(0, size_mandala):
 	dicio_remove = {}
-	reset = 0
+	#reset = 0
 
-	f = open("PeopleAndPlaces.txt", "r")
-	for line in f:
-		temp = line.strip().split(", ")
-		size = len(temp)
-		if size == 1:
-			print("==================================================================")
-			print("\nChegamos ao fim da 14ª semana, logo foi feito o reset dos cômodos.\n")
-			print("==================================================================\n")
-			filename = "ResetPeopleAndPlaces.py"
-			with open(filename, "rb") as source_file:
-			    code = compile(source_file.read(), filename, "exec")
-			exec(code)
-			dicio.clear()
-			reset = 1
-			break
-		dicio[temp[0]] = []
-		for i in range(1,size):
-			dicio[temp[0]].append(temp[i])
-	f.close()
+	# f = open("PeopleAndPlaces.txt", "r")
+	# #Populate dicio with left places to person do
+	# for person in people:
+	# 	temp = line.strip().split(", ")
+	# 	size = len(temp)
+	# 	dicio[temp[0]] = []
+	# 	for i in range(1,size):
+	# 		dicio[temp[0]].append(temp[i])
 
-	if reset == 1:
-		f = open("PeopleAndPlaces.txt", "r")
-		for line in f:
-			temp = line.strip().split(", ")
-			size = len(temp)
-			dicio[temp[0]] = []
-			for i in range(1,size):
-				dicio[temp[0]].append(temp[i])
-		f.close()
+	# f.close()
 
+	# Try to assign places multiple times, until it works
 	while True:
 		places_aux = places.copy()
 		people_aux = people.copy()
 		dicio_remove.clear()
-		size_people = len(people_aux)
 		i = 0
 
-		while i != size_people:
-			size_places = len(places_aux)
-			num = rd.randint(0,size_places)
-			to_clean = places_aux[num-1]
-			person = get_place(places_aux, people_aux, to_clean, dicio)
+		# Try to assign by luck
+		while i != size_mandala:
+			number_left = len(places_aux)
+			#print(f"i:{i} PP: {len(people_aux)} {len(places_aux)} {len(people)} {len(places)}")
+			num = rd.randrange(0, number_left) #Iterate through places 
+			to_clean = places_aux[num] #Place to clean
+			person = get_place(to_clean)
 			if person == "Error":
-				# print("\nFound Error\n")
+				#print("\nFound Error\n")
 				break
+
 			i += 1
 
-		if i == size_people:
+		# Success
+		if i == size_mandala:
 			break
 	
-	history.write(f"Semana {week+1} - {today.strftime('%d-%m')}\n\n")
+	# Print output
+	history.write(f"Semana {week} - {today.strftime('%d/%m')}\n\n")
 
 	unique_places = list(set(places))
 	for place in unique_places:
@@ -94,17 +93,18 @@ for week in range(0,14):
 
 	today = today + datetime.timedelta(days=7)
 
-
+	# Update dicio removing current done chore
 	for person in dicio_remove:
 		# print(f"{person} - {dicio_remove[person]}")
 		dicio[person].remove(dicio_remove[person])
 
-	f = open("PeopleAndPlaces.txt", "w")
-	for person in dicio:
-		f.write(person)
-		for place in dicio[person]:
-			f.write(f", {place}")
-		f.write("\n")
-	f.close()
+	# Update PeopleAndPlaces
+	# f = open("PeopleAndPlaces.txt", "w")
+	# for person in dicio:
+	# 	f.write(person)
+	# 	for place in dicio[person]:
+	# 		f.write(f", {place}")
+	# 	f.write("\n")
+	# f.close()
 
 history.close()
