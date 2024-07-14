@@ -12,8 +12,8 @@ def get_place(to_clean):
 			dicio_remove[person] = to_clean
 			places_aux.remove(to_clean)
 			people_aux.remove(person)
-			return person
-	return "Error"
+			return
+	raise Exception()
 
 people = ["Cabeca", "Cafe", "Bordel", "Xupeta", "Moises", "Tesouro", "Desisto", "Tampinha", "P4", "Castro"]
 places = ["Sala + Corredor Frente", "Lavabo + Corredor Quartos", "Banheiro Meio", "Banheiro Suite", "Fundo", "Garagem + Frente", "Garagem + Frente", "Salol + Sala Antiga", "Lavanderia + Banheiro Fundo + Cozinha", "Lavanderia + Banheiro Fundo + Cozinha"]
@@ -40,23 +40,19 @@ for week in range(0, size_mandala):
 		places_aux = places.copy()
 		people_aux = people.copy()
 		dicio_remove.clear()
-		i = 0
 
 		# Try to assign by luck
-		while i != size_mandala:
-			number_left = len(places_aux)
-			#print(f"i:{i} PP: {len(people_aux)} {len(places_aux)} {len(people)} {len(places)}")
-			num = rd.randrange(0, number_left) #Iterate through places 
-			to_clean = places_aux[num] #Place to clean
-			person = get_place(to_clean)
-			if person == "Error":
-				#print("\nFound Error\n")
-				break
+		try:
+			for i in range(0,size_mandala):
+				number_left = len(places_aux)
+				num = rd.randrange(0, number_left) #Iterate through places 
+				to_clean = places_aux[num] #Place to clean
+				get_place(to_clean)
 
-			i += 1
+		except:
+			pass
 
-		# Success
-		if i == size_mandala:
+		else:
 			break
 	
 	# Print output
