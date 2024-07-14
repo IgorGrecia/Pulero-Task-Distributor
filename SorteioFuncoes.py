@@ -26,6 +26,9 @@ for person in people:
 if len(places) != size_mandala:
 	print("\nCorrige as listas hardcodadas corno\n")
 
+if not os.path.exists('Tasks'):
+    os.makedirs('Tasks')
+
 today = datetime.datetime.today()
 history = open(f"Tasks/Tasks Limpeza Pulero {today.strftime('%d-%m')}.txt", "w")
 
