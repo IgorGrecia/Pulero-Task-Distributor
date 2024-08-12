@@ -15,8 +15,8 @@ def get_place(to_clean):
 			return
 	raise Exception()
 
-people = ["Cabeca", "Cafe", "Bordel", "Xupeta", "Moises", "Tesouro", "Desisto", "Tampinha", "P4", "Castro"]
-places = ["Sala + Corredor Frente", "Lavabo + Corredor Quartos", "Banheiro Meio", "Banheiro Suite", "Fundo", "Garagem + Frente", "Garagem + Frente", "Salol + Sala Antiga", "Lavanderia + Banheiro Fundo + Cozinha", "Lavanderia + Banheiro Fundo + Cozinha"]
+people = ["Cabeca", "Cafe", "Bordel", "Xupeta", "Moises", "Chris", "Greg", "Dylan", "Castro", "Pix", "James", "Magalu", "Penado"]
+places = ["Sala + Corredor Frente", "Lavabo + Corredor Quartos", "Banheiro Meio", "Banheiro Suite", "Fundo", "Fundo", "Fundo", "Garagem + Frente", "Garagem + Frente", "Salol + Sala Antiga", "Lavanderia + Banheiro Fundo + Cozinha", "Lavanderia + Banheiro Fundo + Cozinha", "Lavanderia + Banheiro Fundo + Cozinha"]
 size_mandala = len(people)
 dicio = {}
 
@@ -24,7 +24,8 @@ for person in people:
 	dicio[person] = places.copy()
 
 if len(places) != size_mandala:
-	print("\nCorrige as listas hardcodadas corno\n")
+	raise Exception(f"\nCorrige as listas hardcodadas corno\n. Pessoas; {len(people)}. Lugares: {len(places)}")
+
 
 if not os.path.exists('Tasks'):
     os.makedirs('Tasks')
